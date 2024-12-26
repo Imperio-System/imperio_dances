@@ -17,6 +17,7 @@ end)
 RegisterServerEvent('imperio_dances:inviteDance', function(idInvited)
     local xPlayer = ESX.GetPlayerFromId(source)
     local job = xPlayer.job.name
+
     TriggerClientEvent('imperio_dances:receiveInvitation', idInvited, job)
 end)
 
@@ -27,14 +28,17 @@ RegisterServerEvent('imperio_dances:startDance', function(id)
     MySQL.single('select url, thumbUrl, thumbTitle, title, duration from imperio_dances where job=? and id=?', {job, id}, function(data)
         if data then
             local area = Config.Nightclubs[job].area
+
             if exports['cs-hall']:IsPlaying(area) then
                 exports['cs-hall']:Pause(area)
                 Wait(1500)
             else
                 exports['cs-hall']:Stop(area)
             end
-            exports['cs-hall']:AddToQueue(area,data.url, data.thumbUrl, data.thumbTitle, data.title, 'fab fa-youtube icon', data.duration)
+            exports['cs-hall']:AddToQueue(area, data.url, data.thumbUrl, data.thumbTitle, data.title, 'fab fa-youtube icon', data.duration)
+
             local queue = exports['cs-hall']:GetQueue(area)
+
             exports['cs-hall']:QueueNow(area, #queue)
             exports['cs-hall']:Play(area)
             TriggerClientEvent('imperio_dances:startDance', -1, job, data.duration)
@@ -77,12 +81,13 @@ RegisterServerEvent('imperio_dances:addSong', function(vidId, name)
         else
             xPlayer.showNotification(Translate('video_data_error'))
         end
-    end,"GET", "", { ["Content-Type"] = "application/json"})
+    end, "GET", "", { ["Content-Type"] = "application/json"})
 end)
 
 RegisterServerEvent('imperio_dances:removeSong', function(id)
     local xPlayer = ESX.GetPlayerFromId(source)
     local job = xPlayer.job.name
+
     MySQL.update('DELETE FROM imperio_dances WHERE id=? AND job=?', {id, job}, function(rowsChanged)
         if rowsChanged then
             xPlayer.showNotification(Translate('song_deleted'))
@@ -100,12 +105,17 @@ ESX.RegisterServerCallback('imperio_dances:getSongs', function(source, cb)
     local xPlayer = ESX.GetPlayerFromId(source)
     local job = xPlayer.job.name
 
-    MySQL.query("SELECT id, url, name FROM `imperio_dances` WHERE `job` = ?", {job},function(result)
+    MySQL.query("SELECT id, url, name FROM `imperio_dances` WHERE `job` = ?", {job}, function(result)
         local songTable = {}
+
         if #result > 0 then
             for i=1, #result do
                 local data = result[i]
-                songTable[i] = {video = data.url, label = "🎼" .. data.name, id = data.id}
+                songTable[i] = {
+                    video = data.url,
+                    label = "🎼" .. data.name,
+                    id = data.id
+                }
             end
         end
         cb(songTable)

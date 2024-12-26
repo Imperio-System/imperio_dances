@@ -4,6 +4,118 @@
 
 local dancing = false
 local invitation = ""
+local dances = {
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "high_left_up",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "high_left_down",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "med_right_down",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "med_center",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "high_center_down",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "low_left",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "low_left_down",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "low_left_up",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "low_right",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "low_right_down",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "low_right_up",
+	},
+	{
+		dict = "anim@amb@nightclub@dancers@tale_of_us_entourage@",
+		anim = "mi_dance_prop_13_v2_male^4",
+	},
+	{
+		dict = "anim@amb@nightclub@dancers@tale_of_us_entourage@",
+		anim = "mi_dance_crowd_13_v2_female^4",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "med_left",
+	},
+	{
+		dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
+		anim = "med_right",
+	},
+}
+local endDances = {
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "air_slap_a_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "cheer_a_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "clapping_a_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "dance_a_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "finger_guns_a_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "finger_guns_b_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "fist_pump_a_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "hands_air_b_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "hands_air_c_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "regal_a_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "regal_b_1st",
+	},
+	{
+		dict = "anim@arena@celeb@podium@no_prop@",
+		anim = "regal_c_1st",
+	},
+}
 
 ------------------------
 --------FUNCTIONS-------
@@ -13,7 +125,9 @@ function startDance(duration)
 	TriggerServerEvent('imperio_dances:updatePoints', 0, invitation)
 	SendNUIMessage({show = "start", duration = duration})
 	dancing = true
-	alternateDances()
+
+	CreateThread(alternateDances)
+
 	while dancing do
 		if IsControlJustPressed(0, 32) then --W
 			SendNUIMessage({key = "W"})
@@ -29,85 +143,24 @@ function startDance(duration)
 end
 
 function alternateDances()
-	local dances = {
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "high_left_up",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "high_left_down",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "med_right_down",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "med_center",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "high_center_down",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "low_left",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "low_left_down",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "low_left_up",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "low_right",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "low_right_down",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "low_right_up",
-		},
-		{
-			dict = "anim@amb@nightclub@dancers@tale_of_us_entourage@",
-			anim = "mi_dance_prop_13_v2_male^4",
-		},
-		{
-			dict = "anim@amb@nightclub@dancers@tale_of_us_entourage@",
-			anim = "mi_dance_crowd_13_v2_female^4",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "med_left",
-		},
-		{
-			dict = "anim@amb@nightclub@mini@dance@dance_solo@female@var_a@",
-			anim = "med_right",
-		},
-	}
+	local prev = 0
 
-	CreateThread(function()
-		local prev = 0
-		while dancing do
-			local rnd = math.random(#dances)
-			while prev == rnd do
-				rnd = math.random(#dances)
-			end
-			prev = rnd
-			local anim = dances[rnd]
+	while dancing do
+		local rnd = math.random(#dances)
 
-			ESX.Streaming.RequestAnimDict(anim.dict, function()
-				TaskPlayAnim(ESX.PlayerData.ped, anim.dict, anim.anim, 8.0, -8, -1, 1, 0, 0, 0, 0)
-			end)
-			Wait(10000)
+		while prev == rnd do
+			rnd = math.random(#dances)
 		end
-	end)
+
+		prev = rnd
+
+		local anim = dances[rnd]
+
+		ESX.Streaming.RequestAnimDict(anim.dict, function()
+			TaskPlayAnim(ESX.PlayerData.ped, anim.dict, anim.anim, 8.0, -8, -1, 1, 0, 0, 0, 0)
+		end)
+		Wait(10000)
+	end
 end
 
 function menuStartDanceContest()
@@ -118,7 +171,7 @@ function menuStartDanceContest()
 			local song = songs[i]
 			elements[i] = {
 				title = song.label,
-				args={
+				args = {
 					id = song.id
 				},
 				onSelect = function(args)
@@ -216,6 +269,7 @@ function menuDeleteSong(data)
 				args = data,
 				onSelect = function(args)
 					local soundId = 'test'..PlayerId()
+
 					if exports.xsound:soundExists(soundId)then
 						if exports.xsound:isPlaying(soundId) then
 							exports.xsound:Pause(soundId)
@@ -272,60 +326,9 @@ function menuInvite()
 end
 
 function endDance()
+	local rnd = math.random(#endDances)
+	local anim = endDances[rnd]
 
-	local dances = {
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "air_slap_a_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "cheer_a_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "clapping_a_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "dance_a_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "finger_guns_a_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "finger_guns_b_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "fist_pump_a_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "hands_air_b_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "hands_air_c_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "regal_a_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "regal_b_1st",
-		},
-		{
-			dict = "anim@arena@celeb@podium@no_prop@",
-			anim = "regal_c_1st",
-		},
-	}
-
-	local rnd = math.random(#dances)
-	local anim = dances[rnd]
 	ESX.Streaming.RequestAnimDict(anim.dict, function()
 		TaskPlayAnim(ESX.PlayerData.ped, anim.dict, anim.anim, 8.0, -8, -1, 0, 0, 0, 0, 0)
 	end)
@@ -376,6 +379,7 @@ exports('openMenu', menuContest)
 
 RegisterNetEvent('imperio_dances:startDance', function(nightclub, duration)
 	Config.Nightclubs[nightclub].scores = {}
+
 	if invitation == nightclub then
 		local coords = GetEntityCoords(ESX.PlayerData.ped)
 		local distance = #(Config.Nightclubs[invitation].cordsScores - coords)
@@ -397,6 +401,7 @@ RegisterNetEvent('imperio_dances:showPoints', function(points, nightclub, id)
 	if not nightclub or not id then
 		return
 	end
+
 	Config.Nightclubs[nightclub].scores[id] = points
 end)
 
@@ -449,7 +454,7 @@ CreateThread(function()
 
 			if distance < 8 and nightclub.scores ~= {} then
 				local x, y, z = table.unpack(nightclub.cordsScores)
-				z = z+(0.15*#nightclub.scores)
+				z = z+(0.15 * #nightclub.scores)
 				for id, points in pairs(nightclub.scores) do
 					ESX.Game.Utils.DrawText3D(vec3(x, y, z), Translate('score_text', id, points), 1, 4)
 					z = z-0.15
