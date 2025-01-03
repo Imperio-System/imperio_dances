@@ -5,11 +5,13 @@ var perfect = "PERFECTO!"
 var keepItUp = "SIGUE ASÍ"
 var notBad = "NO ESTÁ MAL"
 var tooBad = "UFFF, MUY MAL"
+
 //don't touch
 var score = 0
 var keyPoints = 0
 var usableTime = 0
-const resourceName = window.GetParentResourceName ? GetParentResourceName () : 'imperio_dances';
+const resourceName = window.GetParentResourceName ? GetParentResourceName() : 'imperio_dances';
+const jsConfetti = new JSConfetti();
 
 function generateKey() {
     if ($("body").css('display') != 'block') {
@@ -43,7 +45,7 @@ function generateKey() {
 
     $("#" + id).animate({
         "right": "110%"
-    }, 6000, function() {
+    }, 6000, function () {
         $("#" + id).remove();
     });
 
@@ -58,7 +60,7 @@ function getRandomArbitrary(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-window.addEventListener('message', function(event) {
+window.addEventListener('message', function (event) {
     if (event.data.show == "start") {
         $("body").show();
         $("#bar").show();
@@ -73,7 +75,7 @@ window.addEventListener('message', function(event) {
 
         keyPoints = Math.round(maxScore / keyAmmount);
 
-        setTimeout(function() {
+        setTimeout(function () {
             $("body").hide();
             $.post(`https://${resourceName}/endDance`);
         }, duration);
@@ -83,8 +85,10 @@ window.addEventListener('message', function(event) {
         $("body").hide();
     } else {
         var squarePosition = parseInt($("#square").css("right"), 10);
+        var ammountConfetti = 0;
+        var typeConfetti = [];
 
-        $("." + event.data.key).each(function() {
+        $("." + event.data.key).each(function () {
             var value = parseInt($(this).css("right"), 10);
 
             if (value > squarePosition * 0.95) {
@@ -99,31 +103,48 @@ window.addEventListener('message', function(event) {
                 if (hit > 99) {
                     $("#message").html(perfect);
                     $("#message").css("color", "#edff00");
-                    setTimeout(function() {
+                    ammountConfetti = 25;
+                    typeConfetti = ['🎉', '✨', '🎊', '🎈'];
+                    setTimeout(function () {
                         $("#message").html("")
                     }, 600);
                     score = score + keyPoints;
                 } else if (hit > 97) {
                     $("#message").html(keepItUp);
                     $("#message").css("color", "#00752a");
-                    setTimeout(function() {
+                    ammountConfetti = 15;
+                    typeConfetti = ['🎉', '✨', '🎊'];
+                    setTimeout(function () {
                         $("#message").html("")
                     }, 600);
                     score = score + Math.round(keyPoints / 2);
                 } else if (hit > 94) {
                     $("#message").html(notBad);
                     $("#message").css("color", "#1c04a2");
-                    setTimeout(function() {
+                    ammountConfetti = 10;
+                    typeConfetti = ['🎉', '✨'];
+                    setTimeout(function () {
                         $("#message").html("")
                     }, 600);
                     score = score + Math.round(keyPoints / 3);
                 } else {
                     $("#message").html(tooBad);
                     $("#message").css("color", "#7e0000");
-                    setTimeout(function() {
+                    ammountConfetti = 8;
+                    typeConfetti = ['🤏', '👎', '💩', '🤮'];
+                    setTimeout(function () {
                         $("#message").html("")
                     }, 600);
                 }
+
+                // Lanza confeti
+                jsConfetti.addConfetti({
+                    emojis: typeConfetti,
+                    emojiSize: 30,
+                    confettiNumber: ammountConfetti,
+                    zIndex: -10,
+                });
+
                 $.post(`https://${resourceName}/updatePoints`, JSON.stringify({
                     ammount: score
                 }));

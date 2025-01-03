@@ -1,7 +1,6 @@
 ------------------------
 --------VARIABLES-------
 ------------------------
-local youtubeApiLink = "https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails&id=%s&key=%s"
 local youtubevideoLink = 'https://www.youtube.com/watch?v='
 --the api key you have generated in https://console.cloud.google.com with the YouTube Data API v3 enabled
 local youtubeApiKey = ''
@@ -52,7 +51,7 @@ RegisterServerEvent('imperio_dances:addSong', function(vidId, name)
     local xPlayer = ESX.GetPlayerFromId(source)
     local job = xPlayer.job.name
 
-    PerformHttpRequest(string.format(youtubeApiLink, vidId, youtubeApiKey), function(err, data, head)
+    PerformHttpRequest("https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails&id="..vidId.."&key="..youtubeApiKey  , function(err, data, head)
         if err == 200 then
             local videoInfo = json.decode(data)
             videoInfo = videoInfo.items[1]
